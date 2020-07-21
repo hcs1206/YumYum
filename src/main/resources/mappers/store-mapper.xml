@@ -15,10 +15,15 @@
     <select id="findStoreByName" resultType="Store" >
 		select *
 		from m_store
-		where name = #{name}
+		where name like #{name}
 		order by reviewCount
 		limit 20
     </select>
+    
+    <select id="findStoreDetail" resultType="Store">
+        select *                                        
+		from m_store where id= #{id}
+	 </select>
      
      
 <!-- 	  <select id="findEmployeeById" resultType="Yumyum">

@@ -39,12 +39,25 @@ public class StoreController {
 	@RequestMapping(value = "/store/find/{name}", method = RequestMethod.GET)
 	public ResponseEntity<List<Store>> findStoreByName(@PathVariable String name) throws Exception {
 		logger.info("------------------StoreByName-----------------------------" + new Date());
+		
 		List<Store> stores = storeService.findStoreByName(name);
 		if (stores.isEmpty()) {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<Store>>(stores, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/store/detail/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Store> findStoreDetail(@PathVariable String id) throws Exception {
+		logger.info("------------------findDetailById-----------------------" + new Date());
+		Store store = storeService.findStoreDetail(id);
+		if (store == null || store.getId() == "") {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		System.out.println(store.getName());
+		return new ResponseEntity<Store>(store, HttpStatus.OK);
+	}
+	
 	
 //	@RequestMapping(value = "/store/insert", method = RequestMethod.POST)
 //	public ResponseEntity<String> addEmployee(@RequestBody m_store dto) throws Exception {

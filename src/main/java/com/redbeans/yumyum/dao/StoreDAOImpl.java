@@ -20,7 +20,13 @@ public class StoreDAOImpl implements StoreDAO {
 
 	@Override
 	public List<Store> findStoreByName(String name) throws Exception {
-		return sqlSession.selectList("m_store.findStoreByName", name);
+		
+		return sqlSession.selectList("m_store.findStoreByName", "%"+name+"%");
+	}
+
+	@Override
+	public Store findStoreDetail(String id) throws Exception {
+		return sqlSession.selectOne("m_store.findStoreDetail", id);
 	}
 
 //	@Override

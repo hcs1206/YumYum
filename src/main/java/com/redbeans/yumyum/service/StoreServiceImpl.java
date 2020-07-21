@@ -24,6 +24,11 @@ public class StoreServiceImpl implements StoreService {
 	public List<Store> findStoreByName(String name) throws Exception {
 		return storeDao.findStoreByName(name);
 	}
+
+	@Override
+	public Store findStoreDetail(String id) throws Exception {
+		return storeDao.findStoreDetail(id);
+	}
     
 //  	@Override
 //	public int addEmployee(Yumyum emp) throws Exception {
