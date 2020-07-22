@@ -8,7 +8,7 @@
 
     <select id="findAllStores" resultType="Store" >
 		select *                                                             
-		from m_store order by reviewCount
+		from m_store order by reviewCount DESC
 		limit 20
     </select>
     
@@ -16,7 +16,7 @@
 		select *
 		from m_store
 		where name like #{name}
-		order by reviewCount
+		order by reviewCount DESC
 		limit 20
     </select>
     

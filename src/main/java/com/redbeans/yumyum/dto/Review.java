@@ -4,11 +4,11 @@ public class Review {
 	private String id;
 	private String userName;
 	private String date;
-	private String score;
+	private int score;
 	private int visitCount;
 	
 	
-	public Review(String id, String userName, String date, String score, int visitCount) {
+	public Review(String id, String userName, String date, int score, int visitCount) {
 		super();
 		this.id = id;
 		this.userName = userName;
@@ -34,10 +34,10 @@ public class Review {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public String getScore() {
+	public int getScore() {
 		return score;
 	}
-	public void setScore(String score) {
+	public void setScore(int score) {
 		this.score = score;
 	}
 	public int getVisitCount() {
