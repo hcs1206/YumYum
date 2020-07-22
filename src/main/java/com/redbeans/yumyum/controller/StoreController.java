@@ -1,6 +1,8 @@
 package com.redbeans.yumyum.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -67,39 +69,45 @@ public class StoreController {
 	@RequestMapping(value = "/recommendStores/{id}", method = RequestMethod.GET)
 	public ResponseEntity<List<Store>> recommendStores(@PathVariable String id) throws Exception {
 		logger.info("---------------recommendStores-----------------------------" + new Date());
-		List<Review> Reviews = reviewService.findReviewById(id);
 		HashMap<String, Integer> hm = new HashMap<String, Integer>();
 		List<Store> stores = new ArrayList<Store>();
 
+		// 음식점에 적힌 전체 리뷰 가져오기
+		List<Review> Reviews = reviewService.findReviewById(id);
 		if (Reviews.size() > 0) {
 			for (Review r : Reviews) {
 				String userName = r.getUserName();
+				// 현재 음식점에 리뷰를 작성한 사용자가 다른 음식점에 작성한 리뷰들을 가져옴
 				List<Review> uReviews = reviewService.findReviewByName(userName);
 				for (Review r2 : uReviews) {
-					if (!hm.containsKey(r2.getId())) {
-						hm.put(r2.getId(), 1);
-					} else {
-						hm.put(r2.getId(), hm.get(r2.getId()) + 1);
+					// 작성한 다른 가게 만족도가 높을시 연관도를 높힘
+					if (r2.getScore() >= 4 || r2.getVisitCount() > 1) {
+						if (!hm.containsKey(r2.getId())) {
+							hm.put(r2.getId(), 1);
+						} else {
+							hm.put(r2.getId(), hm.get(r2.getId()) + 1);
+						}
 					}
 				}
-
 			}
-
-			for (String key : hm.keySet()) {
-
-				int value = hm.get(key);
+			
+			List<String> keySetList = new ArrayList<>(hm.keySet());
+			
+			Collections.sort(keySetList, new Comparator<String>() {
+				@Override
+				public int compare(String o1, String o2) {
+					return hm.get(o2).compareTo(hm.get(o1));
+				}
+			});
+			
+			// 가장 유사도가 높은 음식점 순으로 최대 50개를 선정
+			for (String key : keySetList) {
+				stores.add(storeService.findStoreDetail(key));
 				if (stores.size() > 50) {
 					break;
 				}
-
-				if (value > 50) {
-					stores.add(storeService.findStoreDetail(key));
-				}
-
 			}
 		}
-
-		System.out.println(stores.size());
 
 		if (stores.isEmpty()) {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -108,51 +116,5 @@ public class StoreController {
 		return new ResponseEntity<List<Store>>(stores, HttpStatus.OK);
 
 	}
-
-//	@RequestMapping(value = "/store/insert", method = RequestMethod.POST)
-//	public ResponseEntity<String> addEmployee(@RequestBody m_store dto) throws Exception {
-//		logger.info("5-------------addEmployee-----------------------------" + new Date());
-//		logger.info("5-------------addEmployee-----------------------------" + dto);
-//		int t = storeService.addEmployee(dto);
-//		if (t == 1)
-//			return new ResponseEntity<String>("success", HttpStatus.OK);
-//		else
-//			return new ResponseEntity<String>("fail", HttpStatus.OK);
-//	}
-
-//	@RequestMapping(value = "/employee/{id}", method = RequestMethod.GET)
-//	public ResponseEntity<Yumyum> findEmployeeById(@PathVariable int id) throws Exception {
-//		logger.info("1-------------findEmployeeById-----------------------------" + new Date());
-//		Yumyum emp = yumyumService.findEmployeeById(id);
-//		if (emp == null || emp.getId() == 0) {
-//			return new ResponseEntity(HttpStatus.NO_CONTENT);
-//		}
-//		return new ResponseEntity<Yumyum>(emp, HttpStatus.OK);
-//	}
-//
-//	@RequestMapping(value = "/employee", method = RequestMethod.PUT)
-//	public ResponseEntity<String> updateEmployee(@RequestBody Yumyum dto) throws Exception {
-//		logger.info("1-------------updateEmployee-----------------------------" + new Date());
-//		logger.info("1-------------updateEmployee-----------------------------" + dto);
-//		boolean total = yumyumService.updateEmployee(dto);
-//
-//		if (!total) {
-//			return new ResponseEntity<String>("fail", HttpStatus.NO_CONTENT);
-//		}
-//		return new ResponseEntity<String>("success", HttpStatus.OK);
-//	}
-//
-//	@RequestMapping(value = "/employee/{employeeId}", method = RequestMethod.DELETE)
-//	public ResponseEntity<String> deleteEmployee(@PathVariable int employeeId) throws Exception {
-//		logger.info("1-------------deleteEmployee-----------------------------" + new Date());
-//		logger.info("1-------------deleteEmployee-----------------------------" + employeeId);
-//
-//		boolean total = yumyumService.deleteEmployee(employeeId);
-//		;
-//		if (!total) {
-//			return new ResponseEntity<String>("fail", HttpStatus.NO_CONTENT);
-//		}
-//		return new ResponseEntity<String>("success", HttpStatus.OK);
-//	}
 
 }
