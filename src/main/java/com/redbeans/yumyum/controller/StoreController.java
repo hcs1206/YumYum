@@ -90,16 +90,16 @@ public class StoreController {
 					}
 				}
 			}
-			
+
 			List<String> keySetList = new ArrayList<>(hm.keySet());
-			
+
 			Collections.sort(keySetList, new Comparator<String>() {
 				@Override
 				public int compare(String o1, String o2) {
 					return hm.get(o2).compareTo(hm.get(o1));
 				}
 			});
-			
+
 			// 가장 유사도가 높은 음식점 순으로 최대 50개를 선정
 			for (String key : keySetList) {
 				stores.add(storeService.findStoreDetail(key));

@@ -11,11 +11,11 @@ import com.redbeans.yumyum.dto.Store;
 
 @Service
 public class StoreServiceImpl implements StoreService {
-	
-    @Autowired
+
+	@Autowired
 	private StoreDAO storeDao;
 
-    @Override
+	@Override
 	public List<Store> findAllStores() throws Exception {
 		return storeDao.findAllStores();
 	}
@@ -29,7 +29,7 @@ public class StoreServiceImpl implements StoreService {
 	public Store findStoreDetail(String id) throws Exception {
 		return storeDao.findStoreDetail(id);
 	}
-    
+
 //  	@Override
 //	public int addEmployee(Yumyum emp) throws Exception {
 //		return employeeDao.addEmployee(emp);
@@ -53,5 +53,4 @@ public class StoreServiceImpl implements StoreService {
 //		return employeeDao.deleteEmployee(id);
 //	}
 
-	
 }
