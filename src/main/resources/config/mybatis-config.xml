@@ -8,7 +8,6 @@
 	<mappers>	  
 		<mapper resource="mappers/store-mapper.xml" />
 		<mapper resource="mappers/review-mapper.xml" />
+		<mapper resource="mappers/detail-mapper.xml" />
 	</mappers>
 </configuration>
-
-

@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.redbeans.yumyum.dao.StoreDAO;
+import com.redbeans.yumyum.dto.Detail;
 import com.redbeans.yumyum.dto.Store;
 
 @Service
@@ -26,31 +26,14 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public Store findStoreDetail(String id) throws Exception {
+	public Detail findStoreDetail(String id) throws Exception {
 		return storeDao.findStoreDetail(id);
 	}
 
-//  	@Override
-//	public int addEmployee(Yumyum emp) throws Exception {
-//		return employeeDao.addEmployee(emp);
-//	}
-//
-//
-//	@Override
-//	public Yumyum findEmployeeById(int id) throws Exception {
-//		return employeeDao.findEmployeeById(id);
-//	}
-//
-//	@Override
-//	@Transactional
-//	public boolean updateEmployee(Yumyum emp) throws Exception {
-//		return employeeDao.updateEmployee(emp);
-//	}
-//
-//	@Override
-//	@Transactional
-//	public boolean deleteEmployee(int id) throws Exception {
-//		return employeeDao.deleteEmployee(id);
-//	}
+	@Override
+	public Store findStoreById(String id) throws Exception {
+		return storeDao.findStoreById(id);
+
+	}
 
 }

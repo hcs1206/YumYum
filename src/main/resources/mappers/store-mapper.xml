@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- mappers/hrm.xml -->
+<!-- mappers/store-mapper.xml -->
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
                         
@@ -20,61 +20,10 @@
 		limit 20
     </select>
     
-    <select id="findStoreDetail" resultType="Store">
+    <select id="findStoreById" resultType="Store">
         select *                                        
 		from m_store where id= #{id}
 	 </select>
-     
-     
-<!-- 	  <select id="findEmployeeById" resultType="Yumyum">
-        select id, name, mailid, start_date, manager_id, title, dept_id    ,                      
-		ifnull(salary,0.0) salary, ifnull(commission_pct,0.0) commission_pct                                        
-		from s_emp where id= #{id}  
-	 </select>
-
-
-     <insert id="addEmployee">
-         
-            INSERT INTO s_emp	     
-			(id, name, mailid, start_date, manager_id, title, dept_id, SALARY, COMMISSION_PCT)
-			VALUES(
-            #{id},#{name},#{mailid},#{start_date},
-			<if test="manager_id != '' and manager_id != null and  manager_id != 0 " >
-				#{manager_id}
-			</if>       		
-			<if test="manager_id == '' or manager_id == null or manager_id == 0 " >
-				null
-			</if>  
-            ,#{title},#{dept_id},#{salary},
-			<if test="commission_pct != '' and commission_pct != null and  commission_pct != 0 " >
-				#{commission_pct}
-			</if>       		
-			<if test="commission_pct == '' or commission_pct == null or commission_pct == 0 " >
-				null
-			</if>  
-	        )                               
-    </insert>
-    
-    <update id="updateEmployee" >parameterType="Yumyum"
-    	UPDATE s_emp   SET                      
-	        name=#{name}, mailid=#{mailid}  ,  start_date= #{start_date},         
-	        manager_id=#{manager_id},    title=#{title},                                  
-	        dept_id=#{dept_id},salary=#{salary}  
-	        <if test="commission_pct != '' and commission_pct != null and  commission_pct != 0 " >
-				,commission_pct=#{commission_pct} 
-			</if>
-	          <if test="commission_pct == '' or commission_pct == null or commission_pct == 0 " >
-				,commission_pct=null 
-			</if>  
-	        WHERE id=#{id}                
-    </update>
-    
-    <delete id="deleteEmployee">
-        DELETE FROM s_emp WHERE id=#{id}    
-    </delete>
-
- -->
-
     
 
 </mapper>

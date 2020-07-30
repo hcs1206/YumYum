@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.redbeans.yumyum.dto.Detail;
 import com.redbeans.yumyum.dto.Review;
 import com.redbeans.yumyum.dto.Store;
 import com.redbeans.yumyum.service.ReviewService;
@@ -47,7 +48,7 @@ public class StoreController {
 
 	@RequestMapping(value = "/store/find/{name}", method = RequestMethod.GET)
 	public ResponseEntity<List<Store>> findStoreByName(@PathVariable String name) throws Exception {
-		logger.info("------------------StoreByName-----------------------------" + new Date());
+		logger.info("------------------findStoreByName-----------------------------" + new Date());
 
 		List<Store> stores = storeService.findStoreByName(name);
 		if (stores.isEmpty()) {
@@ -57,13 +58,13 @@ public class StoreController {
 	}
 
 	@RequestMapping(value = "/store/detail/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Store> findStoreDetail(@PathVariable String id) throws Exception {
-		logger.info("------------------findDetailById-----------------------" + new Date());
-		Store store = storeService.findStoreDetail(id);
+	public ResponseEntity<Detail> findStoreDetail(@PathVariable String id) throws Exception {
+		logger.info("------------------findStoreDetail-----------------------" + new Date());
+		Detail store = storeService.findStoreDetail(id);
 		if (store == null || store.getId() == "") {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<Store>(store, HttpStatus.OK);
+		return new ResponseEntity<Detail>(store, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/recommendStores/{id}", method = RequestMethod.GET)
@@ -100,10 +101,10 @@ public class StoreController {
 				}
 			});
 
-			// 가장 유사도가 높은 음식점 순으로 최대 50개를 선정
+			// 가장 유사도가 높은 음식점 순으로 최대 10개를 선정
 			for (String key : keySetList) {
-				stores.add(storeService.findStoreDetail(key));
-				if (stores.size() > 50) {
+				stores.add(storeService.findStoreById(key));
+				if (stores.size() > 10) {
 					break;
 				}
 			}
